@@ -1,10 +1,10 @@
-## team055-intern_miami
+## team055-desi
 
 ## Basic Information
 | Info  | Description |
 | ------------- | ------------- |
 | TeamID | Team-055  |
-| TeamName  | inter_miami  |
+| TeamName  | desi  |
 | Captain  | Yash Jain  |
 | Captain  | yash7@illinois.edu |
 | Member1  | Neel Ghoshal  |
