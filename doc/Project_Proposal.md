@@ -15,7 +15,7 @@
 RaceRewind is a comprehensive web application aimed at Formula 1 (F1) enthusiasts. It provides unique insights and alternative scenarios based on historical and recent F1 data, allowing users to explore "what-if" situations and in-depth analyses. The application will offer recalculations of past championships with current scoring systems, analyze driver performance through sector times, and track the evolution of pit stop efficiency. Through advanced data analysis techniques, RaceRewind will help F1 fans gain a deeper understanding of the sport's complexities beyond traditional statistics.
 
 
-### Project Description
+## Project Description
 
 RaceRewind aims to bridge the gap between surface-level F1 statistics and deeper, more nuanced analysis that passionate fans crave. It will allow users to interact with F1 data to visualize alternative championship outcomes, theoretical race times, and analyze driver consistency across qualifying and race performances. Additionally, the platform will track trends in pit stop efficiency and help users assess the correlation between qualifying and race results.
 
@@ -30,7 +30,7 @@ The core features of the application include:
 
 These features aim to deliver an interactive and educational experience for both long-time fans and newcomers to Formula 1 racing.
 
-### Usefulness of the Application
+## Usefulness of the Application
 
 RaceRewind enhances the F1 fan experience by offering:
 
@@ -66,7 +66,7 @@ The application will provide multiple data-driven features, including:
 
 The UI will feature a dashboard that presents key analysis tools in an intuitive format. Users can select various options (e.g., seasons, drivers, teams) and visualize data through interactive charts and graphs. The UI will prioritize ease of navigation and data exploration for fans.
 
-### Project Work Distribution
+## Project Work Distribution
 
 The team members will contribute to the project in the following areas:
 
