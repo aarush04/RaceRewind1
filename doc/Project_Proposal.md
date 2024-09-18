@@ -30,7 +30,7 @@ The core features of the application include:
 
 These features aim to deliver an interactive and educational experience for both long-time fans and newcomers to Formula 1 racing.
 
-## Usefulness of the Application
+### Usefulness of the Application
 
 RaceRewind enhances the F1 fan experience by offering:
 
