@@ -1,0 +1,74 @@
+/* Black-Heavy Gradient Background */
+.bg-gradient-heavy {
+    background: linear-gradient(to bottom, black 90%, #FF1E000 10%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* Title Animation */
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Title Styling with Animation */
+.title {
+    font-size: 3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: white;
+    display: flex;
+    gap: 5px; /* Space between letters */
+    justify-content: center;
+}
+
+.title span {
+    display: inline-block;
+    animation: slideInFromLeft 0.5s ease-in-out forwards;
+    animation-delay: calc(0.1s * var(--index)); /* Delay for each letter */
+}
+
+/* Tagline Styling */
+.tagline {
+    font-size: 1.2rem;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+/* Search Container */
+.search-container {
+    margin-bottom: 2rem; /* Add space between search bar and feature boxes */
+}
+
+/* Feature Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    font-size: 0.875rem;
+    padding: 1rem;
+    margin-top: 2rem;
+    background: transparent; /* Blend with gradient */
+    color: white;
+}

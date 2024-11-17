@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { drivers } from '../data/driverData';
 import { useNavigate } from 'react-router-dom';
+import '../components/SearchBar.css';
 
 interface SearchBarProps {
     onSearch: (term: string) => void;
@@ -32,7 +33,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     };
 
     return (
-        <div className="relative w-full max-w-md">
+        <div className="relative w-full max-w-md search-bar-container">
             <input
                 type="text"
                 placeholder="Search for a driver..."
@@ -46,7 +47,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
                         <li
                             key={index}
                             onClick={() => handleSuggestionClick(suggestion)}
-                            className="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-200 text-black"
                         >
                             {suggestion}
                         </li>

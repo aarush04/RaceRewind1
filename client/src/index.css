@@ -11,7 +11,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Updated Black-Heavy Gradient */
+.bg-gradient-heavy {
+  background: linear-gradient(to bottom, black 70%, #8b0000);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.text-white {
+  color: white;
+}
+
+/* Footer Styling */
+.footer {
+  background: black;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 0.875rem;
+  width: 100%;
+  margin-top: auto;
 }

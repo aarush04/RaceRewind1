@@ -1,0 +1,52 @@
+/* SearchBar Styling */
+.search-bar-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 1rem auto;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+.search-bar-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white; /* Text in input */
+  font-size: 1rem;
+}
+
+.search-bar-container input:focus {
+  outline: none;
+  border-color: #ff1801; /* Red border on focus */
+}
+
+.search-bar-container input::placeholder {
+  color: rgba(255, 255, 255, 0.5); /* Subtle placeholder text */
+}
+
+.search-bar-container input:-webkit-autofill {
+  -webkit-text-fill-color: white; /* Fix autocomplete text visibility */
+  box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.8) inset;
+}
+
+/* Autocomplete Suggestions */
+.search-bar-container ul {
+  background: white;
+  color: black;
+}
+
+.search-bar-container li {
+  color: black;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-bar-container li:hover {
+  background-color: #f0f0f0;
+}
