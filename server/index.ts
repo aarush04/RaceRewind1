@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import route1 from './src/routes/route1';
 import cors from 'cors';
-import { getAllDriver } from './src/services/database';
+import { getAllDrivers } from './src/services/database';
 
 const app = express();
 const PORT = 3007;
@@ -16,7 +16,7 @@ app.get('/api/', (req: Request, res: Response) => {
 app.get('/drivers', async (req: Request, res: Response) => {
     try {
         console.log('GET /api/drivers called');
-        const drivers = await getAllDriver();
+        const drivers = await getAllDrivers();
         console.log('Returning drivers:', drivers);
         res.json(drivers);
     } catch (error) {
