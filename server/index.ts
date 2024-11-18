@@ -1,19 +1,23 @@
 import express, { Request, Response } from 'express';
-import route1 from './src/routes/route1';
 import cors from 'cors';
+import route1 from './src/routes/route1';
+import recalculationRoutes from './src/routes/recalculation';
 import { getAllDrivers } from './src/services/database';
 
 const app = express();
 const PORT = 3007;
 
+// Middleware
 app.use(express.json());
 app.use(cors());
 
+// Root API Endpoint
 app.get('/api/', (req: Request, res: Response) => {
-    res.send('abbas goat end.');
+    res.send('Welcome to F1 Points API');
 });
 
-app.get('/drivers', async (req: Request, res: Response) => {
+// Drivers Endpoint
+app.get('/api/drivers', async (req: Request, res: Response) => {
     try {
         console.log('GET /api/drivers called');
         const drivers = await getAllDrivers();
@@ -30,8 +34,10 @@ app.get('/drivers', async (req: Request, res: Response) => {
     }
 });
 
-app.use('/', route1);
+// Mount Recalculation Routes
+app.use('/api/recalculation', recalculationRoutes);
 
+// Start the Server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -1,6 +1,6 @@
 /* Black-Heavy Gradient Background */
 .bg-gradient-heavy {
-    background: linear-gradient(to bottom, black 90%, #FF1E000 10%);
+    background: linear-gradient(to bottom, black 90%, #bb210c 10%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
