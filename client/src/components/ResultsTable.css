@@ -1,0 +1,48 @@
+/* Individual Results Container */
+.results-container {
+    flex: 1 1 45%; /* Allow tables to resize and fit side by side */
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    color: white;
+    overflow-x: auto; /* Horizontal scrolling for wide tables */
+    overflow-y: auto; /* Vertical scrolling for tall tables */
+    max-height: 500px; /* Limit height to allow vertical scrolling */
+}
+
+/* Table Styling */
+.results-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+}
+
+.results-table th,
+.results-table td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.results-table th {
+    background: rgba(0, 0, 0, 0.9);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.results-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.results-table tr:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.7);
+}
