@@ -43,3 +43,15 @@ export const httpClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+export const getPitStopAverages = async (grandPrixName: string) => {
+    try {
+        const response = await axios.get('/api/pitstop-averages', {
+            params: { grandPrixName },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching pit stop averages:', error);
+        throw error;
+    }
+};
