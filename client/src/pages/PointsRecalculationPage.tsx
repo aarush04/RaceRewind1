@@ -1,84 +1,92 @@
 import React, { useState } from 'react';
-import { fetchDriverPointsByYear, fetchConstructorPointsByYear } from '../services/recalculation';
+import YearInputForm from '../components/YearInputForm';
+import ResultsTable from '../components/ResultsTable';
+import './PointsRecalculationPage.css';
 
 const PointsRecalculationPage: React.FC = () => {
-    const [category, setCategory] = useState('drivers'); // 'drivers' or 'constructors'
     const [year, setYear] = useState('');
-    const [results, setResults] = useState<any[]>([]);
-    const [error, setError] = useState('');
+    const [driverResults, setDriverResults] = useState<Array<{ position: number; driver: string; points: number }>>([]);
+    const [constructorResults, setConstructorResults] = useState<Array<{ position: number; constructor: string; points: number }>>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleFetchResults = async () => {
+    const fetchRecalculatedPoints = async (inputYear: string) => {
+        setLoading(true);
+        setError(null);
+
         try {
-            setError('');
-            const data =
-                category === 'drivers'
-                    ? await fetchDriverPointsByYear(year)
-                    : await fetchConstructorPointsByYear(year);
-            setResults(data);
-        } catch (err) {
-            if (err instanceof Error) {
-                setError(err.message || 'An error occurred');
-            } else {
-                setError('An error occurred');
+            const response = await fetch(`/api/points-recalculation?year=${inputYear}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch recalculated points');
             }
+
+            const data = await response.json();
+
+            // Format driver results
+            setDriverResults(
+                data.drivers.map((driver: any, index: number) => ({
+                    position: index + 1,
+                    driver: driver.DriverName,
+                    points: driver.points,
+                }))
+            );
+
+            // Format constructor results
+            setConstructorResults(
+                data.constructors.map((constructor: any, index: number) => ({
+                    position: index + 1,
+                    constructor: constructor.ConstructorName,
+                    points: constructor.points_pre_2010_system,
+                }))
+            );
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
+    const handleRecalculate = (inputYear: string) => {
+        setYear(inputYear);
+        fetchRecalculatedPoints(inputYear);
+    };
+
     return (
-        <div className="points-recalculation-page">
-            <h1>Points Recalculation</h1>
-            <label>
-                Select Year:
-                <input
-                    type="text"
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    placeholder="Enter year"
-                />
-            </label>
-            <label>
-                Select Category:
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                    <option value="drivers">Drivers</option>
-                    <option value="constructors">Constructors</option>
-                </select>
-            </label>
-            <button onClick={handleFetchResults}>Fetch Points</button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <table>
-                <thead>
-                    <tr>
-                        {category === 'drivers' ? (
-                            <>
-                                <th>Driver Name</th>
-                                <th>Points</th>
-                            </>
-                        ) : (
-                            <>
-                                <th>Constructor Name</th>
-                                <th>Points</th>
-                            </>
-                        )}
-                    </tr>
-                </thead>
-                <tbody>
-                    {results.map((item, index) => (
-                        <tr key={index}>
-                            {category === 'drivers' ? (
-                                <>
-                                    <td>{item.DriverName}</td>
-                                    <td>{item.points_2004_system}</td>
-                                </>
-                            ) : (
-                                <>
-                                    <td>{item.ConstructorName}</td>
-                                    <td>{item.points_pre_2010_system}</td>
-                                </>
-                            )}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        <div className="bg-gradient-heavy">
+            <h1 className="title">
+                {"What If Champions: Reimagining Titles".split("").map((letter, index) => (
+                    <span key={index} style={{ "--index": index } as React.CSSProperties}>
+                        {letter}
+                    </span>
+                ))}
+            </h1>
+            <p className="subtitle">
+                This feature allows you to recalculate championship points based on the current scoring rules. Enter a year
+                below to get started.
+            </p>
+
+            <YearInputForm onRecalculate={handleRecalculate} />
+
+            {loading && <p>Loading...</p>}
+            {error && <p className="error">{error}</p>}
+
+            {year && !loading && !error && (
+                <div className="results-flex-container">
+                    {/* Drivers Table */}
+                    <ResultsTable
+                        title={`Recalculated Driver Standings for ${year}`}
+                        columns={["Position", "Driver", "Points"]}
+                        data={driverResults.map((result) => [result.position, result.driver, result.points])}
+                    />
+
+                    {/* Constructors Table */}
+                    <ResultsTable
+                        title={`Recalculated Constructor Standings for ${year}`}
+                        columns={["Position", "Constructor", "Points"]}
+                        data={constructorResults.map((result) => [result.position, result.constructor, result.points])}
+                    />
+                </div>
+            )}
         </div>
     );
 };

@@ -1,0 +1,44 @@
+input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.year-input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.year-input:focus {
+    outline: none;
+    border-color: #ff1e00;
+}
+
+.recalculate-button {
+    padding: 10px 20px;
+    background-color: #ff1e00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.recalculate-button:hover {
+    background-color: #e01700;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    margin-top: -5px;
+    text-align: center;
+}
