@@ -1,7 +1,6 @@
-import { pool } from './connection'; // Import the named export
+import { pool } from './connection';
 import { RowDataPacket } from 'mysql2';
 
-// Function to calculate pit stop averages
 export async function getPitStopAverages(grandPrixName: string): Promise<any[]> {
     const sqlQuery = `
         SELECT 
@@ -25,7 +24,6 @@ export async function getPitStopAverages(grandPrixName: string): Promise<any[]> 
     return rows;
 }
 
-// Function to recalculate driver points
 export async function getRecalculatedDriverPoints(year: number): Promise<any[]> {
     console.log('Executing driver points query for year:', year);
 
@@ -83,7 +81,6 @@ export async function getRecalculatedDriverPoints(year: number): Promise<any[]> 
     return rows;
 }
 
-// Function to recalculate constructor points
 export async function getRecalculatedConstructorPoints(year: number): Promise<any[]> {
     console.log('Executing constructor points query for year:', year);
 
