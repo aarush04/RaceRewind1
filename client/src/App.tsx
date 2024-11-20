@@ -1,11 +1,16 @@
 import React from 'react';
-import PointsRecalculationPage from './pages/PointsRecalculationPage'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Homepage from './pages/Homepage';
+import PointsRecalculationPage from './pages/PointsRecalculationPage';
 
 const App: React.FC = () => {
     return (
-        <div>
-            <PointsRecalculationPage />
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/points-recalculation" element={<PointsRecalculationPage />} />
+            </Routes>
+        </Router>
     );
 };
 
