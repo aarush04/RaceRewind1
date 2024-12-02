@@ -1,3 +1,5 @@
+// client/src/pages/Homepage.tsx
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';

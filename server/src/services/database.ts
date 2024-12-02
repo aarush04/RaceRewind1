@@ -1,6 +1,74 @@
 import { pool } from './connection';
 import { RowDataPacket } from 'mysql2';
 
+
+// server/src/services/database.ts
+
+export async function getAveragePitStopTimesWithMinimum(): Promise<any[]> {
+    const sqlQuery = `
+        SELECT 
+            r.Name AS grand_prix_name,
+            r.Year AS year,
+            AVG(CAST(ps.StopDuration AS FLOAT)) AS avg_pitstop_time
+        FROM 
+            Race r
+        JOIN 
+            Pit_Stops ps ON r.raceID = ps.raceID
+        GROUP BY 
+            r.Name, r.Year
+        HAVING 
+            AVG(CAST(ps.StopDuration AS FLOAT)) = (
+                SELECT 
+                    MIN(avg_pitstop_time)
+                FROM (
+                    SELECT 
+                        r.Name,
+                        AVG(CAST(ps.StopDuration AS FLOAT)) AS avg_pitstop_time
+                    FROM 
+                        Race r
+                    JOIN 
+                        Pit_Stops ps ON r.raceID = ps.raceID
+                    GROUP BY 
+                        r.Name, r.Year
+                ) AS subquery
+                WHERE 
+                    subquery.Name = r.Name
+            )
+        ORDER BY 
+            r.Name, r.Year
+        LIMIT 100;
+    `;
+
+    const [rows] = await pool.query<RowDataPacket[]>(sqlQuery);
+    return rows.map(row => ({
+        name: row.grand_prix_name,
+        year: row.year,
+        avg_pitstop_time: row.avg_pitstop_time,
+    }));
+}
+
+
+
+export async function getFastestPitStopTimes(): Promise<any[]> {
+    const sqlQuery = `
+        SELECT 
+            r.Name AS grand_prix_name,
+            r.Year,
+            MIN(CAST(ps.StopDuration AS FLOAT)) AS fastest_pitstop_time
+        FROM 
+            Race r
+        JOIN 
+            Pit_Stops ps ON r.raceID = ps.raceID
+        GROUP BY 
+            r.Name, r.Year
+        ORDER BY 
+            fastest_pitstop_time ASC
+    `;
+
+    const [rows] = await pool.query<RowDataPacket[]>(sqlQuery);
+    return rows;
+}
+
 export async function getPitStopAverages(grandPrixName: string): Promise<any[]> {
     const sqlQuery = `
         SELECT 
@@ -17,7 +85,7 @@ export async function getPitStopAverages(grandPrixName: string): Promise<any[]> 
             r.Year, r.Name
         ORDER BY 
             r.Year
-        LIMIT 15;
+        LIMIT 100;
     `;
 
     const [rows] = await pool.query<RowDataPacket[]>(sqlQuery, [grandPrixName]);
