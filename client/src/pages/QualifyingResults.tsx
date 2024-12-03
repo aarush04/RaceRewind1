@@ -95,7 +95,7 @@ const QualifyingResults: React.FC = () => {
                 )}
 
                 {results.length === 0 && !loading && !error && (
-                    <p className="no-results-message">No results found for the provided query.</p>
+                    <p className="no-results-message"></p>
                 )}
             </div>
             <footer className="footer">
