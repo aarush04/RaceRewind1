@@ -1,3 +1,5 @@
+/* client/src/pages/QualifyingResultsPage.css */
+
 .qualifying-results-container {
     font-family: Arial, sans-serif;
     margin: 20px auto;
@@ -7,10 +9,10 @@
 
 .qualifying-results-container h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: #fff;
 }
 
-.qualifying-results-container input {
+.input-field {
     margin: 5px;
     padding: 8px 12px;
     font-size: 16px;
@@ -18,8 +20,8 @@
     border-radius: 4px;
 }
 
-.qualifying-results-container button {
-    padding: 8px 15px;
+.fetch-button {
+    padding: 10px 20px;
     font-size: 16px;
     color: #fff;
     background-color: #007bff;
@@ -28,39 +30,55 @@
     cursor: pointer;
 }
 
-.qualifying-results-container button:hover {
+.fetch-button:hover {
     background-color: #0056b3;
 }
 
-.qualifying-results-container table {
-    width: 100%;
-    border-collapse: collapse;
+.results-flex-container {
     margin-top: 20px;
 }
 
-.qualifying-results-container table th,
-.qualifying-results-container table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+.qualifying-results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.qualifying-results-table th,
+.qualifying-results-table td {
+    border: 1px solid #444; /* Darker border for consistency with the theme */
+    padding: 8px; /* Reduce padding to make rows less spaced out */
+    text-align: center;
+    color: #fff; /* Ensure text is visible against dark background */
+}
+
+.qualifying-results-table th {
+    background-color: #333; /* Darken header background for consistency */
+    color: #ce2929; /* Highlight text color */
+    font-weight: bold;
+}
+
+.qualifying-results-table tbody tr:nth-child(even) {
+    background-color: #1a1a1a; /* Darker row background to match theme */
+}
+
+.qualifying-results-table tbody tr:hover {
+    background-color: #333; /* Darken row on hover instead of turning white */
+}
+
+.loading-message,
+.error-message,
+.no-results-message {
+    margin-top: 20px;
+    color: #ce2929; /* Match the rest of the theme */
+    font-weight: bold;
     text-align: center;
 }
 
-.qualifying-results-container table th {
-    background-color: #f4f4f4;
-    color: #333;
-    font-weight: bold;
-}
-
-.qualifying-results-container table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.qualifying-results-container table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.qualifying-results-container p {
-    margin-top: 20px;
-    color: red;
-    font-weight: bold;
+.footer {
+    text-align: center;
+    font-size: 0.875rem;
+    padding: 1rem;
+    background: transparent;
+    color: white;
 }
