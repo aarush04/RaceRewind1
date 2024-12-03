@@ -5,6 +5,7 @@ import cors from 'cors';
 import pointsrecalculation from './src/routes/pointsrecalculation';
 import fastestPitStops from './src/routes/fastestPitStops';
 import averagePitStop from './src/routes/averagePitStop';
+import qualifyingResults from './src/routes/qualifyingResults';
 
 
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/points', pointsrecalculation);
 app.use('/api/fastest-pitstops', fastestPitStops);
 app.use('/api/average-pitstop', averagePitStop); // Add this route
+app.use('/api/qualifying-results', qualifyingResults);
 
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

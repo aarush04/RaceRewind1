@@ -220,3 +220,76 @@ export async function getRecalculatedConstructorPoints(year: number): Promise<an
         throw new Error('Failed to fetch recalculated constructor points');
     }
 }
+
+export const getQualifyingResults = async (lastName: string, year: number) => {
+    const query = `
+        WITH qualifying_positions AS (
+            SELECT
+                qr.raceID,
+                qr.driverID,
+                r.Name AS Race_Name,
+                r.Year,
+                d.LastName,
+                qr.GridPosition AS QualifyingPosition
+            FROM Qualifying_Results qr
+            JOIN Driver d ON qr.driverID = d.driverID
+            JOIN Race r ON qr.raceID = r.raceID
+            WHERE d.LastName LIKE CONCAT('%', ?, '%') AND r.Year = ?
+        ),
+        race_positions AS (
+            SELECT
+                rr.raceID,
+                rr.driverID,
+                rr.FinalPosition AS FinishPosition
+            FROM Race_Results rr
+            JOIN Race r ON rr.raceID = r.raceID
+            WHERE r.Year = ?
+        ),
+        positions_gained_lost AS (
+            SELECT
+                qp.Race_Name,
+                qp.QualifyingPosition,
+                rp.FinishPosition,
+                CASE 
+                    WHEN rp.FinishPosition = 0 THEN 0
+                    ELSE (qp.QualifyingPosition - rp.FinishPosition)
+                END AS PositionsGainedLost
+            FROM qualifying_positions qp
+            JOIN race_positions rp ON qp.raceID = rp.raceID AND qp.driverID = rp.driverID
+        ),
+        consistency_metrics AS (
+            SELECT
+                'Consistency Index' AS Race_Name,
+                NULL AS QualifyingPosition,
+                NULL AS FinishPosition,
+                ROUND(STDDEV(PositionsGainedLost), 3) AS StdDev_PositionsGainedLost,
+                ROUND(AVG(PositionsGainedLost), 3) AS Avg_PositionsGainedLost
+            FROM positions_gained_lost
+        )
+        SELECT 
+            Race_Name,
+            QualifyingPosition,
+            FinishPosition,
+            PositionsGainedLost,
+            NULL AS StdDev_PositionsGainedLost,
+            NULL AS Avg_PositionsGainedLost
+        FROM positions_gained_lost
+
+        UNION ALL
+
+        SELECT
+            Race_Name,
+            NULL AS QualifyingPosition,
+            NULL AS FinishPosition,
+            NULL AS PositionsGainedLost,
+            StdDev_PositionsGainedLost,
+            Avg_PositionsGainedLost
+        FROM consistency_metrics
+
+        ORDER BY Race_Name IS NULL;
+    `;
+
+    const [results] = await pool.query(query, [lastName, year, year]);
+    return results;
+};
+

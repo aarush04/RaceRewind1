@@ -125,16 +125,7 @@ export async function fetchRaceResults(raceID: number): Promise<RaceResults[]> {
     }
 }
 
-// Function to fetch Qualifying Results
-export async function fetchQualifyingResults(raceID: number): Promise<QualifyingResults[]> {
-    try {
-        const response = await httpClient.get(`/api/qualifying-results/${raceID}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching qualifying results:', error);
-        throw error;
-    }
-}
+
 
 // Function to fetch Pit Stops
 export async function fetchPitStops(raceID: number): Promise<PitStop[]> {
@@ -195,3 +186,47 @@ export async function fetchAveragePitStopTimesWithMinimum(): Promise<{ name: str
     }
 }
 
+export async function fetchQualifyingResultsWithMetrics(
+  lastName: string,
+  year: number
+): Promise<{
+  raceName: string;
+  qualifyingPosition: number | null;
+  finishPosition: number | null;
+  positionsGainedLost: number | null;
+  stdDevPositionsGainedLost: number | null;
+  avgPositionsGainedLost: number | null;
+}[]> {
+  try {
+      const response = await httpClient.get('/api/qualifying-results', {
+          params: {
+              lastName: lastName,
+              year: year,
+          },
+      });
+
+      return response.data.map((item: any) => ({
+          raceName: item.Race_Name,
+          qualifyingPosition: item.QualifyingPosition,
+          finishPosition: item.FinishPosition,
+          positionsGainedLost: item.PositionsGainedLost,
+          stdDevPositionsGainedLost: item.StdDev_PositionsGainedLost,
+          avgPositionsGainedLost: item.Avg_PositionsGainedLost,
+      }));
+  } catch (error) {
+      console.error("Error fetching qualifying results:", error);
+      throw error;
+  }
+}
+
+
+// Function to fetch Qualifying Results
+// export async function fetchQualifyingResults(raceID: number): Promise<QualifyingResults[]> {
+//     try {
+//         const response = await httpClient.get(`/api/qualifying-results/${raceID}`);
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error fetching qualifying results:', error);
+//         throw error;
+//     }
+// }
