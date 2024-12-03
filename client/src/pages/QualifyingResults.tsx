@@ -39,7 +39,7 @@ const QualifyingResults: React.FC = () => {
         <div className="bg-gradient-heavy">
             <header>
                 <h1 className="title">Qualifying Results</h1>
-                <p className="subtitle" style={{ fontSize: '1.8rem', marginBottom: '20px' }}>Fetch and analyze qualifying results by driver and year.</p>
+                <p className="subtitle" style={{ fontSize: '1.8rem', marginBottom: '20px' }}>Analyze results and consistency for a driver in a race year</p>
             </header>
             <div className="qualifying-results-container">
                 <input

@@ -41,7 +41,7 @@ const PitStopsPage: React.FC = () => {
         <div className="bg-gradient-heavy">
             <header>
                 <h1 className="title">Pit Stop Evolution</h1>
-                <p className="subtitle" style={{ fontSize: '1.8rem', marginBottom: '20px' }}>Explore the evolution of pit stops throughout the years.</p>
+                <p className="subtitle" style={{ fontSize: '1.8rem', marginBottom: '20px' }}>This feature displays best average pit stop time per track and the year in which this best average occured</p>
             </header>
             <div className="pitstop-evolution-container">
                 <h2 style={{ marginTop: '0' }}>Grand Prix with Average Pit Stop Times and Minimum Averages</h2>
