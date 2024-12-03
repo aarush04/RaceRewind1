@@ -219,6 +219,41 @@ export async function fetchQualifyingResultsWithMetrics(
   }
 }
 
+export async function fetchHypotheticalFastestTimes(
+  year: number,
+  lastName: string
+): Promise<{
+  year: number;
+  race: string;
+  driverName: string;
+  qualifyingTimeQ1: string | null;
+  qualifyingTimeQ2: string | null;
+  qualifyingTimeQ3: string | null;
+  hypotheticalFastestTime: string | null;
+}[]> {
+  try {
+      const response = await httpClient.get('/api/hypothetical-fastest-times', {
+          params: {
+              year,
+              lastName,
+          },
+      });
+
+      return response.data.map((item: any) => ({
+          year: item.Year,
+          race: item.Race,
+          driverName: item.Driver_Name,
+          qualifyingTimeQ1: item.Qualifying_Time_Q1,
+          qualifyingTimeQ2: item.Qualifying_Time_Q2,
+          qualifyingTimeQ3: item.Qualifying_Time_Q3,
+          hypotheticalFastestTime: item.Hypothetical_Fastest_Time,
+      }));
+  } catch (error) {
+      console.error("Error fetching hypothetical fastest times:", error);
+      throw error;
+  }
+}
+
 
 // Function to fetch Qualifying Results
 // export async function fetchQualifyingResults(raceID: number): Promise<QualifyingResults[]> {
