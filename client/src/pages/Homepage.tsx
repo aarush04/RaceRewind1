@@ -8,6 +8,7 @@ import './Homepage.css';
 
 const Homepage: React.FC = () => {
     const navigate = useNavigate();
+    const token = localStorage.getItem('token'); // Check if user is logged in
 
     const handleSearch = (name: string) => {
         if (name) {
@@ -15,9 +16,28 @@ const Homepage: React.FC = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
+
     return (
         <div className="bg-gradient-heavy">
             <header>
+                <nav className="navbar">
+                    {!token ? (
+                        <>
+                            <button className="nav-button" onClick={() => navigate('/login')}>Login</button>
+                            <button className="nav-button" onClick={() => navigate('/register')}>Register</button>
+                        </>
+                    ) : (
+                        <>
+                            <button className="nav-button" onClick={() => navigate('/profile')}>Profile</button>
+                            <button className="nav-button" onClick={handleLogout}>Logout</button>
+                        </>
+                    )}
+                </nav>
+
                 <h1 className="title">
                     {"Race Rewind".split("").map((letter, index) => (
                         <span key={index} style={{ "--index": index } as React.CSSProperties}>

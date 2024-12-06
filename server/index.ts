@@ -7,6 +7,8 @@ import fastestPitStops from './src/routes/fastestPitStops';
 import averagePitStop from './src/routes/averagePitStop';
 import qualifyingResults from './src/routes/qualifyingResults';
 import hypotheticalFastestTimes from './src/routes/hypotheticalFastestTimes';
+import authRoutes from './src/routes/authRoutes';
+import userRoutes from './src/routes/userRoutes';
 
 
 
@@ -21,6 +23,8 @@ app.use('/api/fastest-pitstops', fastestPitStops);
 app.use('/api/average-pitstop', averagePitStop); 
 app.use('/api/qualifying-results', qualifyingResults);
 app.use('/api/hypothetical-fastest-times', hypotheticalFastestTimes);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
