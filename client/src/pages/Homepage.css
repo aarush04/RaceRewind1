@@ -9,6 +9,31 @@
     color: white;
 }
 
+/* Navigation Bar */
+.navbar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-button {
+    background-color: #ce2929; /* F1 red color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+    background-color: #a02121; /* Slightly darker red for hover effect */
+}
+
 /* Title Animation */
 @keyframes slideInFromLeft {
     0% {
