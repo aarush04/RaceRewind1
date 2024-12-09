@@ -13,7 +13,7 @@ body {
 
 /* Updated Black-Heavy Gradient */
 .bg-gradient-heavy {
-  background: linear-gradient(to bottom, black 70%, #8b0000);
+  background: linear-gradient(to bottom, black 85%, rgba(139, 0, 0, 1) 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -21,6 +21,7 @@ body {
   justify-content: center;
   color: white;
 }
+
 
 .text-white {
   color: white;
@@ -31,7 +32,7 @@ body {
   background: black;
   color: white;
   text-align: center;
-  padding: 10px 0;
+  padding: 8px 0;
   font-size: 0.875rem;
   width: 100%;
   margin-top: auto;

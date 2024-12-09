@@ -1,23 +1,37 @@
-import express from 'express';
+// server/index.ts
+
+import express, { Request, Response, NextFunction, Application } from 'express';
 import cors from 'cors';
-import pitstopaverage from './src/routes/pitstopaverage'; // API routes for pit stop averages
-import route1 from './src/routes/route1'; // Frontend route handler (serves React app)
+import pointsrecalculation from './src/routes/pointsrecalculation';
+import fastestPitStops from './src/routes/fastestPitStops';
+import averagePitStop from './src/routes/averagePitStop';
+import qualifyingResults from './src/routes/qualifyingResults';
+import hypotheticalFastestTimes from './src/routes/hypotheticalFastestTimes';
+import authRoutes from './src/routes/authRoutes';
+import userRoutes from './src/routes/userRoutes';
+
+
 
 const app = express();
 const PORT = 3007;
 
-app.use(express.json()); 
 app.use(cors());
+app.use(express.json());
 
-app.use('/api', pitstopaverage);
+app.use('/api/points', pointsrecalculation);
+app.use('/api/fastest-pitstops', fastestPitStops);
+app.use('/api/average-pitstop', averagePitStop); 
+app.use('/api/qualifying-results', qualifyingResults);
+app.use('/api/hypothetical-fastest-times', hypotheticalFastestTimes);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
-app.use('/', route1);
 
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack);
-    res.status(500).send({ error: 'An unexpected error occurred' });
+    res.status(500).json({ error: err.message });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });

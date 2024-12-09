@@ -1,0 +1,29 @@
+/* client/src/components/FastestPitStopTable.css */
+
+.pitstop-table-container {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    max-width: 800px;
+    margin: 20px auto;
+    color: #ffffff;
+}
+
+.pitstop-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #ffffff;
+}
+
+.pitstop-table th,
+.pitstop-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+.pitstop-table th {
+    background-color: #333;
+    font-weight: bold;
+}

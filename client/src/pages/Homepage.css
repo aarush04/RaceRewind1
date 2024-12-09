@@ -1,12 +1,37 @@
 /* Black-Heavy Gradient Background */
 .bg-gradient-heavy {
-    background: linear-gradient(to bottom, black 90%, #FF1E000 10%);
+    background: linear-gradient(to bottom, black 85%, rgba(139, 0, 0, 1) 100%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
+}
+
+/* Navigation Bar */
+.navbar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-button {
+    background-color: #ce2929; /* F1 red color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+    background-color: #a02121; /* Slightly darker red for hover effect */
 }
 
 /* Title Animation */

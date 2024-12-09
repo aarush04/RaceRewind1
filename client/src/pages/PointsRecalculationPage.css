@@ -2,12 +2,63 @@
 .results-flex-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Center tables horizontally */
-    gap: 20px; /* Add space between the tables */
+    justify-content: space-between; /* Ensure tables are further apart */
+    gap: 40px; /* Increase space between the tables */
     margin: 20px 0; /* Add space between tables and other elements */
-    width: 90%;
-    max-width: 1200px;
+    width: 95%;
+    max-width: 1400px;
     align-items: flex-start; /* Ensure all tables align at the top */
+}
+
+/* Styling for Driver and Constructor Standings */
+.results-flex-container > div {
+    background-color: #1a1a1a; /* Dark background to contrast against text */
+    padding: 20px; /* Add padding inside each box */
+    border-radius: 8px; /* Rounded corners for a sleek look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+    width: calc(48% - 20px); /* Make each container wider to cover more space */
+    border: 2px solid #ce2929; /* Add a border to give a racing stripe effect */
+    background-image: linear-gradient(45deg, rgba(206, 41, 41, 0.2) 25%, transparent 25%, transparent 50%, rgba(206, 41, 41, 0.2) 50%, rgba(206, 41, 41, 0.2) 75%, transparent 75%, transparent);
+    background-size: 20px 20px; /* Create a checkered pattern for a racing effect */
+}
+
+.results-flex-container h2 {
+    color: #ce2929; /* Highlight section headings in a bright color */
+    margin-bottom: 10px;
+    text-align: center; /* Center align the headings */
+    font-size: 2.5rem; /* Increase font size for headings */
+    font-weight: bold; /* Make headings bold */
+    text-transform: uppercase; /* Make headings uppercase for emphasis */
+    text-shadow: 2px 2px 4px #000; /* Add shadow for a dynamic effect */
+}
+
+.results-flex-container ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+}
+
+.results-flex-container li {
+    display: flex;
+    justify-content: space-between; /* Align name and points on either end */
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #333; /* Different background color for each row */
+    border-radius: 5px; /* Rounded corners for each row */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+    border-left: 5px solid #ce2929; /* Add a racing stripe on the left for each row */
+}
+
+.results-flex-container li:hover {
+    background-color: #444; /* Slightly lighter on hover to highlight */
+}
+
+.results-flex-container .driver-name, .constructor-name {
+    font-weight: bold;
+    color: #00bfff; /* Differentiate driver/constructor names with a bright color */
+}
+
+.results-flex-container .points {
+    color: #fff; /* Keep the points text in white for contrast */
 }
 
 /* Ensure Tables Do Not Overlap Footer */
@@ -20,6 +71,7 @@
     padding-bottom: 80px; /* Ensure space for footer */
     margin: 0;
     overflow-x: hidden;
+    background: linear-gradient(to bottom, #0b0b0b, #3d0000); /* Add a gradient background to match footer */
 }
 
 .footer {
@@ -29,4 +81,50 @@
     padding: 1rem;
     background: transparent;
     color: white;
+}
+
+/* Styling for the input and button */
+.search-container {
+    display: flex;
+    flex-direction: column; /* Stack input and button vertically */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.year-input {
+    color: black; /* Set the text color to black */
+    background-color: white; /* Ensure the background is white */
+    padding: 15px; /* Increase padding for better appearance */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 4px; /* Add some border radius for rounded corners */
+    font-size: 20px; /* Increase font size for better visibility */
+    margin-bottom: 15px; /* Add space below the input */
+    width: 300px;
+}
+
+.fetch-button {
+    padding: 15px 30px; /* Increase padding for better appearance */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Add some border radius for rounded corners */
+    background-color: #007bff; /* Set background color */
+    color: white; /* Set text color */
+    font-size: 20px; /* Increase font size for better visibility */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.fetch-button:hover {
+    background-color: #0056b3; /* Darken background color on hover */
+}
+
+.title {
+    font-size: 4rem; /* Increase title font size for emphasis */
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    color: #ffffff;
+    text-shadow: 4px 4px 8px #ce2929; /* Add more dramatic shadow effect with a racing color */
+    text-transform: uppercase; /* Make the title uppercase */
+    letter-spacing: 5px; /* Add spacing between letters for a bold look */
+    border-bottom: 5px solid #ce2929; /* Add a bottom border for a racing stripe effect */
+    padding-bottom: 10px;
 }

@@ -1,0 +1,26 @@
+/* client/src/pages/PitStopEvolutionPage.css */
+
+.pitstop-evolution-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: auto;
+}
+
+.pitstop-evolution-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pitstop-evolution-table th,
+.pitstop-evolution-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.pitstop-evolution-table th {
+    background-color: #f4f4f4;
+}

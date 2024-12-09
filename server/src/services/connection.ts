@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 
 if (!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_NAME) {
@@ -7,7 +8,7 @@ if (!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_PASSWORD || 
     process.exit(1);
 }
 
-const pool = mysql.createPool({
+export const pool = mysql.createPool({
     host: process.env.DB_HOST || '104.198.33.153',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'hubm~tCC=DPsx0pS',
@@ -15,8 +16,7 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    debug: true
+    debug: true,
 });
 
 console.log('Connected to MySQL database');
-export default pool;
