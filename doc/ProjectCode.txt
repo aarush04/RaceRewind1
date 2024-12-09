@@ -1,0 +1,229 @@
+1) Stored Procedure
+
+ 
+The store procedure we created on gcp:
+DELIMITER $$
+ 
+CREATE PROCEDURE TheoreticalFastestLapComparor(
+   IN driver_last_name VARCHAR(255),
+   IN race_year INT
+)
+BEGIN
+   -- Use the fastest sector times to calculate the hypothetical fastest time
+   WITH fastest_sector_times AS (
+       SELECT
+           raceID,
+           driverID,
+           -- Convert time to total seconds and handle milliseconds correctly
+           CONCAT(
+               LPAD(FLOOR(SUM(Time) / 60), 2, '0'), ':',
+               LPAD(FLOOR(SUM(Time) % 60), 2, '0'), '.',
+               LPAD(ROUND((SUM(Time) - FLOOR(SUM(Time))) * 10, 1), 1, '0')
+           ) AS hypothetical_fastest_time
+       FROM sectors
+       GROUP BY raceID, driverID
+   ),
+   
+   -- Get the best qualifying times from Q1, Q2, Q3
+   best_qualifying_time AS (
+       SELECT
+           qr.raceID,
+           qr.driverID,
+           MIN(Q1Time) AS Q1Time,
+           MIN(Q2Time) AS Q2Time,
+           MIN(Q3Time) AS Q3Time
+       FROM Qualifying_Results qr
+       GROUP BY qr.raceID, qr.driverID
+   ),
+   
+   -- Combine data from qualifying times and sector times
+   combined_data AS (
+       SELECT
+           r.Year,
+           r.Name AS Race,
+           CONCAT(d.FirstName, ' ', d.LastName) AS Driver_Name,
+           bq.Q1Time AS Qualifying_Time_Q1,
+           bq.Q2Time AS Qualifying_Time_Q2,
+           bq.Q3Time AS Qualifying_Time_Q3,
+           f.hypothetical_fastest_time
+       FROM fastest_sector_times f
+       JOIN best_qualifying_time bq ON f.raceID = bq.raceID AND f.driverID = bq.driverID
+       JOIN Race r ON f.raceID = r.raceID
+       JOIN Driver d ON f.driverID = d.driverID
+       WHERE r.Year = race_year AND d.LastName LIKE CONCAT('%', driver_last_name, '%')
+   )
+   
+   -- Final output with all the data combined
+   SELECT
+       Year,
+       Race,
+       Driver_Name,
+       Qualifying_Time_Q1,
+       Qualifying_Time_Q2,
+       Qualifying_Time_Q3,
+       hypothetical_fastest_time AS Hypothetical_Fastest_Time
+   FROM combined_data;
+END $$
+ 
+ 
+How to call on gcp or backend:
+ 
+CALL TheoreticalFastestLapComparor('Hamilton', 2018);
+
+
+-- Same as the Hypothetical Fastest Time feature
+ 
+ 
+
+Stored Procedure version: Driver Consistency Index by season and driver:
+DROP PROCEDURE IF EXISTS GetDriverConsistencyIndex;
+ 
+-- Step 2: Recreate the updated stored procedure
+DELIMITER $$
+ 
+CREATE PROCEDURE GetDriverConsistencyIndex(
+   IN driver_last_name VARCHAR(255),
+   IN race_year INT
+)
+BEGIN
+   -- Temporary table for qualifying positions
+   CREATE TEMPORARY TABLE qualifying_positions AS
+   SELECT
+       qr.raceID,
+       qr.driverID,
+       r.Name AS Race_Name,
+       r.Year,
+       d.LastName,
+       qr.GridPosition AS QualifyingPosition
+   FROM Qualifying_Results qr
+   JOIN Driver d ON qr.driverID = d.driverID
+   JOIN Race r ON qr.raceID = r.raceID
+   WHERE d.LastName LIKE CONCAT('%', driver_last_name, '%') AND r.Year = race_year;
+ 
+   -- Temporary table for race positions
+   CREATE TEMPORARY TABLE race_positions AS
+   SELECT
+       rr.raceID,
+       rr.driverID,
+       rr.FinalPosition AS FinishPosition
+   FROM Race_Results rr
+   JOIN Race r ON rr.raceID = r.raceID
+   WHERE r.Year = race_year;
+ 
+   -- Temporary table for positions gained or lost
+   CREATE TEMPORARY TABLE positions_gained_lost AS
+   SELECT
+       qp.Race_Name,
+       qp.QualifyingPosition,
+       rp.FinishPosition,
+       CASE
+           WHEN rp.FinishPosition = 0 THEN 0
+           ELSE (qp.QualifyingPosition - rp.FinishPosition)
+       END AS PositionsGainedLost
+   FROM qualifying_positions qp
+   JOIN race_positions rp ON qp.raceID = rp.raceID AND qp.driverID = rp.driverID;
+ 
+   -- Temporary table for consistency metrics
+   CREATE TEMPORARY TABLE consistency_metrics AS
+   SELECT
+       'Consistency Index' AS Race_Name,
+       NULL AS QualifyingPosition,
+       NULL AS FinishPosition,
+       ROUND(STDDEV(PositionsGainedLost), 3) AS StdDev_PositionsGainedLost,
+       ROUND(AVG(PositionsGainedLost), 3) AS Avg_PositionsGainedLost
+   FROM positions_gained_lost;
+ 
+   -- Final query: combine positions gained/lost and consistency metrics
+   SELECT
+       Race_Name,
+       QualifyingPosition,
+       FinishPosition,
+       PositionsGainedLost,
+       NULL AS StdDev_PositionsGainedLost,
+       NULL AS Avg_PositionsGainedLost
+   FROM positions_gained_lost
+ 
+   UNION ALL
+ 
+   SELECT
+       Race_Name,
+       NULL AS QualifyingPosition,
+       NULL AS FinishPosition,
+       NULL AS PositionsGainedLost,
+       StdDev_PositionsGainedLost,
+       Avg_PositionsGainedLost
+   FROM consistency_metrics
+ 
+   ORDER BY Race_Name IS NULL;
+ 
+   -- Clean up temporary tables
+   DROP TEMPORARY TABLE IF EXISTS qualifying_positions;
+   DROP TEMPORARY TABLE IF EXISTS race_positions;
+   DROP TEMPORARY TABLE IF EXISTS positions_gained_lost;
+   DROP TEMPORARY TABLE IF EXISTS consistency_metrics;
+ 
+END $$
+ 
+DELIMITER ;
+ 
+CALL GetDriverConsistencyIndex('Leclerc', 2018);
+
+
+2) Triggers
+
+
+CREATE TRIGGER AfterUserInsert
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO UserRegistrationLog (user_id, username)
+    VALUES (NEW.id, NEW.username);
+END;
+
+CREATE TRIGGER PreventDuplicateUsernames
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    DECLARE duplicate_count INT;
+    SELECT COUNT(*)
+    INTO duplicate_count
+    FROM users
+    WHERE username = NEW.username;
+    IF duplicate_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Duplicate username not allowed';
+    END IF;
+END;
+
+
+3)Transaction
+
+
+DELIMITER $$
+
+CREATE PROCEDURE UpdateFavorites(
+    IN userId INT,
+    IN newFavoriteDriver VARCHAR(255),
+    IN newFavoriteTeam VARCHAR(255)
+)
+BEGIN
+    -- Start the transaction
+    START TRANSACTION;
+
+    -- Lock the row for the user to prevent other updates
+    SELECT favorite_driver, favorite_team
+    FROM users
+    WHERE id = userId
+    FOR UPDATE;
+
+    -- Update the favorite driver and team
+    UPDATE users
+    SET favorite_driver = newFavoriteDriver,
+        favorite_team = newFavoriteTeam
+    WHERE id = userId;
+
+    -- Commit the transaction
+    COMMIT;
+END$$
+
+DELIMITER ;
